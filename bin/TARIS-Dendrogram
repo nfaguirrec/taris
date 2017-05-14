@@ -1,0 +1,185 @@
+#!/bin/bash
+#**************************************************************************
+#   Copyright (C) 2007 by Universidad Nacional de Colombia                *
+#   http://www.unal.edu.co                                                *
+#                                                                         *
+#   This program is free software; you can redistribute it and/or modify  *
+#   it under the terms of the GNU General Public License as published by  *
+#   the Free Software Foundation; either version 2 of the License, or     *
+#   (at your option) any later version.                                   *
+#                                                                         *
+#   This program is distributed in the hope that it will be useful,       *
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+#   GNU General Public License for more details.                          *
+#                                                                         *
+#   You should have received a copy of the GNU General Public License     *
+#   along with this program; if not, write to the                         *
+#   Free Software Foundation, Inc.,                                       *
+#   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+#**************************************************************************
+
+function help()
+{
+	clear
+	echo "=============================="
+	echo "TARIS-Dendrogram (May 24 2008)"
+	echo "=============================="
+	echo ""
+	echo "Produce an image file in PNG format containing a dendrogram, from"
+	echo "the similarity matrix previously generated with TARIS-Matrices"
+	echo ""
+	echo "Depends:"
+	echo "   1) R ( >= 2.4)"
+	echo "      The R Project for Statistical Computing"
+	echo "      http://www.r-project.org"
+	echo "   2) ade4 ( >= 1.4 )"
+	echo "      Analysis of Ecological Data:"
+	echo "      Exploratory and Euclidean methods in Environmental sciences"
+	echo "      http://cran.r-project.org/web/packages/ade4/index.html"
+	echo ""
+	echo "   Complete instructions for their installation are in"
+	echo "      http://taris.sourceforge.net"
+	echo ""
+	echo "Syntax:"
+	echo "   TARIS-Dendrogram -i file [PARAMETERS]"
+	echo ""
+	echo "Required parameters:"
+	echo "   -i   file"
+	echo "           This is the name of the file containing the similarity"
+	echo "           matrix produced by TARIS-Matrices"
+	echo ""
+	echo "Optional parameters:"
+	echo "   -o   output"
+	echo "           Name of the output dendrogram in .png format           "
+	echo "           (default=output.png)"
+	echo "   -m   method"
+	echo "           The clustering method to be used for the dendrogram "
+	echo "           construction. The available clustering methods are: ward,"
+	echo "           single, complete, average, mcquitty, median or centroid"
+	echo "           (default=average)"
+	echo "   -w   width"
+	echo "           The ouput file image width"
+	echo "           (default=800)"
+	echo "   -h   height"
+	echo "           The ouput file image height"
+	echo "           (default=600)"
+	echo ""
+	echo "For example:"
+	echo "   \$ find . -name \"*.cube\" > list"
+	echo "   \$ TARIS-Matrices -i list -m similarity -o matrix.dat"
+	echo "   \$ TARIS-Dendrogram matrix.dat output.png"
+	echo ""
+	echo "Authors:"
+	echo "   Nestor F. Aguirre, Ray M. Marin and Edgar E. Daza C."
+	echo "   Universidad Nacional de Colombia"
+	echo ""
+}
+
+function run()
+{
+	INPUT_FILE=$1
+	OUTPUT_FILE=$2
+	METHOD=$3
+	WIDTH=$4
+	HEIGHT=$5
+	
+	gawk 'BEGIN{found=0} { if(found == 1){ print $0} if( $1 == "SIMILARITY"){found=1}}' $INPUT_FILE > input
+	gawk '{ if( $2 == ":" ) { printf( "%-8s ", $1 ) } } END{ printf("\n") }' input > header
+	gawk '{ if( $2 == ":" ) { printf("%-8s ", $1); for( i=3; i<=NF; i++ ) printf("%7.6f ", 100.0-$i); print "" }}' input > dissimilarityTMP
+	echo -n "labels       " > dissimilarity.csv
+	cat header >> dissimilarity.csv
+	cat dissimilarityTMP >> dissimilarity.csv
+	
+	rm header dissimilarityTMP
+	
+	# Making R script for build the dendrogram
+	echo "require(ade4)" > dendrogram.r
+	echo "require(foreign)" >> dendrogram.r
+	
+	echo "data <- as.dist(read.table(\"dissimilarity.csv\", header=TRUE, row.names=\"labels\"))" >> dendrogram.r
+	echo "dend <- hclust(data, method=\"$METHOD\")" >> dendrogram.r
+	echo "par(cex=0.1)" >> dendrogram.r
+	echo "dend <- as.dendrogram(dend)" >> dendrogram.r
+	echo "png(\"$OUTPUT_FILE\", width=$4, height=$5)" >> dendrogram.r
+	echo "plot(dend, horiz=TRUE, xlab=\"Dissimilarity\", frame.plot=FALSE, axes=TRUE)" >> dendrogram.r
+	echo "dev.off()" >> dendrogram.r
+	
+	R --no-save < dendrogram.r
+	
+	rm Rplots.ps dissimilarity.csv dendrogram.r input
+	
+	return
+}
+
+#################################################
+# Variables globales
+#################################################
+NUMBER_OF_PARAMETERS=`expr "$#" "-" "1"`
+PARAMETERS=( $@ )
+
+INPUT_FILE=""
+OUTPUT_FILE="output.png"
+METHOD="average"
+WIDTH="800"
+HEIGHT="600"
+
+#################################################
+# Escanea los parámetros y almacena sus valores
+# en las respectivas variables
+#################################################
+if [ $NUMBER_OF_PARAMETERS -ge "1" ] # >=
+then
+	for i in `seq 0 $NUMBER_OF_PARAMETERS`
+	do
+		case "${PARAMETERS[@]:i:1}" in
+			"-i")
+				if [ -n ${PARAMETERS[@]:i+1:1} ]
+				then
+					INPUT_FILE=${PARAMETERS[@]:i+1:1}
+				fi
+				;;
+			"-o")
+				if [ -n ${PARAMETERS[@]:i+1:1} ]
+				then
+					OUTPUT_FILE=${PARAMETERS[@]:i+1:1}
+				fi
+				;;
+			"-m")
+				if [ -n ${PARAMETERS[@]:i+1:1} ]
+				then
+					METHOD=${PARAMETERS[@]:i+1:1}
+				fi
+				;;
+			"-w")
+				if [ -n ${PARAMETERS[@]:i+1:1} ]
+				then
+					WIDTH=${PARAMETERS[@]:i+1:1}
+				fi
+				;;
+			"-h")
+				if [ -n ${PARAMETERS[@]:i+1:1} ]
+				then
+					HEIGHT=${PARAMETERS[@]:i+1:1}
+				fi
+				;;
+		esac
+	done
+else
+	help
+	exit
+fi
+
+###################################
+# Verifica el parámetro requerido
+###################################
+if [ -z $INPUT_FILE ]
+then
+	help
+	exit
+fi
+
+#######################################
+# Si todo está bien se corre el script
+#######################################
+run $INPUT_FILE $OUTPUT_FILE $METHOD $WIDTH $HEIGHT

@@ -1,0 +1,6 @@
+$ cmake . -DCMAKE_INSTALL_PREFIX=$HOME/Software
+$ make
+$ make install
+
+Para desinstalar
+$ xargs rm < install_manifest.txt
