@@ -102,6 +102,7 @@ function run()
 	echo "par(cex=0.1)" >> dendrogram.r
 	echo "dend <- as.dendrogram(dend)" >> dendrogram.r
 	echo "png(\"$OUTPUT_FILE\", width=$4, height=$5)" >> dendrogram.r
+	echo "par(mar=c(8.1, 8.1, 8.1, 8.1))" >> dendrogram.r
 	echo "plot(dend, horiz=TRUE, xlab=\"Dissimilarity\", frame.plot=FALSE, axes=TRUE)" >> dendrogram.r
 	echo "dev.off()" >> dendrogram.r
 	
@@ -125,7 +126,7 @@ WIDTH="800"
 HEIGHT="600"
 
 #################################################
-# Escanea los par·metros y almacena sus valores
+# Escanea los par√°metros y almacena sus valores
 # en las respectivas variables
 #################################################
 if [ $NUMBER_OF_PARAMETERS -ge "1" ] # >=
@@ -171,7 +172,7 @@ else
 fi
 
 ###################################
-# Verifica el par·metro requerido
+# Verifica el par√°metro requerido
 ###################################
 if [ -z $INPUT_FILE ]
 then
@@ -180,6 +181,6 @@ then
 fi
 
 #######################################
-# Si todo est· bien se corre el script
+# Si todo est√° bien se corre el script
 #######################################
 run $INPUT_FILE $OUTPUT_FILE $METHOD $WIDTH $HEIGHT
