@@ -11,3 +11,5 @@ More information: http://taris.sourceforge.net
 * Néstor F. Aguirre ( nfaguirrec@unal.edu.co, nfaguirrec@gmail.com ).
 * Ray M. Marín ( rmmarinf@unal.edu.co ).
 * Edgar E. Daza C. ( eedazac@unal.edu.co ).
+
+![Terminal](taris.jpeg)
