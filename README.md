@@ -12,4 +12,10 @@ More information: http://taris.sourceforge.net
 * Ray M. Marín ( rmmarinf@unal.edu.co ).
 * Edgar E. Daza C. ( eedazac@unal.edu.co ).
 
+## Citing
+
+To cite the code, please proceed as follows:
+
+[![DOI](https://zenodo.org/badge/91266409.svg)](https://zenodo.org/badge/latestdoi/91266409)
+
 ![Terminal](taris.jpeg)
