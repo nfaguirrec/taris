@@ -8,9 +8,9 @@ The whole code is written in C++ and has been tested in gcc and intel compilers 
 More information: http://taris.sourceforge.net
 
 # Authors
-* Néstor F. Aguirre ( nfaguirrec@unal.edu.co, nfaguirrec@gmail.com ).
-* Ray M. Marín ( rmmarinf@unal.edu.co ).
-* Edgar E. Daza C. ( eedazac@unal.edu.co ).
+* Néstor F. Aguirre ( nfaguirrec@unal.edu.co, nfaguirrec@gmail.com )
+* Ray M. Marín ( rmmarinf@unal.edu.co )
+* Edgar E. Daza C. ( eedazac@unal.edu.co )
 
 ## Citing
 
