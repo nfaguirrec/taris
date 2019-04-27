@@ -4,6 +4,6 @@ $ cmake . -DCMAKE_INSTALL_PREFIX=$HOME/Software
 $ make
 $ make install
 
-Unstalling TARIS
-----------------
+Uninstalling TARIS
+------------------
 $ xargs rm < install_manifest.txt
