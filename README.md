@@ -7,6 +7,58 @@ The whole code is written in C++ and has been tested in gcc and intel compilers 
 
 More information: http://taris.sourceforge.net
 
+## Installing TARIS
+
+Download the .zip file from this page and extract the files,
+```
+$ unzip taris-master.zip 
+Archive:  taris-master.zip
+d7eb234be17dab6ecdb6c199e8ed865b7dddfc9f
+   creating: taris-master/
+  inflating: taris-master/CMakeLists.txt  
+  inflating: taris-master/INSTALL    
+  inflating: taris-master/LICENSE    
+...
+
+$ mv taris-master master
+```
+or clone the repository using git
+```
+$ git clone https://github.com/nfaguirrec/taris.git
+```
+The following should be the content of the TARIS directory if previous steps were successful:
+```
+$ cd taris
+$ ls
+bin  CMakeLists.txt  deps  LICENSE  LICENSE.Molekel  README.md  src  taris.jpeg
+```
+
+First, it is neccessary to install GTL (Graph Template Library):
+```
+$ git clone https://github.com/rdmpage/graph-template-library.git
+$ cd graph-template-library/
+$ ./configure --prefix=`realpath ../deps/`
+$ make
+$ make install
+```
+
+To build the code just type cmake inside the main directory as follows:
+```
+$ cmake .
+<TARIS_DIR>/src/taris/deps/lib/libGTL.so
+-- Configuring done
+-- Generating done
+-- Build files have been written to: <TARIS_DIR>/src/taris
+```
+
+## Installing TARIS
+
+The basic environmental variables that TARIS needs can be loaded just adding the following command anywhere in the ~/.bashrc file:
+
+```
+source <PATH_TO_TARIS>/TARISvars.sh
+```
+
 # Authors
 * Néstor F. Aguirre ( nfaguirrec@unal.edu.co, nfaguirrec@gmail.com )
 * Ray M. Marín ( rmmarinf@unal.edu.co )
