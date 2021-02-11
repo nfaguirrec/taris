@@ -5,11 +5,10 @@ add_definitions(-static -static-libgcc)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 
-include_directories(/home/nestor/Software/include)
-# link_directories(/home/nestor/Software/lib)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/deps/include)
+link_directories(${CMAKE_CURRENT_SOURCE_DIR}/deps/lib)
 
-#find_library(GTL_LIB NAMES libGTL.so libGTL.a HINTS /home/nestor/Software/lib DOC "The GTL library")
-find_library(GTL_LIB NAMES libGTL.a HINTS /home/nestor/Software/lib DOC "The GTL library")
+find_library(GTL_LIB NAMES libGTL.so libGTL.a HINTS deps/lib DOC "The GTL library")
 MESSAGE(${GTL_LIB})
 
 add_library(taris STATIC
