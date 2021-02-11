@@ -32,7 +32,7 @@ The following should be the content of the TARIS directory if previous steps wer
 ```
 $ cd taris
 $ ls
-bin  CMakeLists.txt  deps  LICENSE  LICENSE.Molekel  README.md  src  taris.jpeg
+bin  CMakeLists.txt  LICENSE  LICENSE.Molekel  README.md  src  taris.jpeg
 ```
 
 First, it is neccessary to install GTL (Graph Template Library):
@@ -45,13 +45,10 @@ $ make
 $ make install
 ```
 
-To build the code just type cmake inside the main directory as follows:
+To build the code just use cmake and make inside the main directory as follows:
 ```
 $ cmake .
-<TARIS_DIR>/src/taris/deps/lib/libGTL.so
--- Configuring done
--- Generating done
--- Build files have been written to: <TARIS_DIR>/src/taris
+$ make
 ```
 
 ## Installing TARIS
