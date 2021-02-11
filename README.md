@@ -38,6 +38,7 @@ bin  CMakeLists.txt  deps  LICENSE  LICENSE.Molekel  README.md  src  taris.jpeg
 First, it is neccessary to install GTL (Graph Template Library):
 ```
 $ git clone https://github.com/rdmpage/graph-template-library.git
+$ mkdir deps
 $ cd graph-template-library/
 $ ./configure --prefix=`realpath ../deps/`
 $ make
