@@ -66,8 +66,10 @@ source <PATH_TO_TARIS>/TARISvars.sh
 
 ## Citing
 
-To cite the code, please proceed as follows:
-
 [![DOI](https://zenodo.org/badge/91266409.svg)](https://zenodo.org/badge/latestdoi/91266409)
+
+1. Graph Theoretical Similarity Approach To Compare Molecular Electrostatic Potentials.<br/>
+   Ray M. Marín, Nestor F. Aguirre, and Edgar E. Daza<br/>
+   [*J. Chem. Inf. Model.*, **48**, 109 (2008)](https://pubs.acs.org/doi/10.1021/ci7001878)
 
 ![Terminal](taris.jpeg)
