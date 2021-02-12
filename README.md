@@ -9,7 +9,7 @@ The whole code is written in C++ and has been tested in gcc and intel compilers 
 
 More information: http://taris.sourceforge.net
 
-## Installing TARIS
+## Compiling TARIS
 
 Download the .zip file from this page and extract the files,
 ```
